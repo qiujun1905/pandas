@@ -1,0 +1,100 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'MainWindow.ui'
+#
+# Created by: PyQt5 UI code generator 5.13.2
+#
+# WARNING! All changes made in this file will be lost!
+
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(1004, 609)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.verticalLayout = QtWidgets.QVBoxLayout(self.centralwidget)
+        self.verticalLayout.setObjectName("verticalLayout")
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setObjectName("label")
+        self.horizontalLayout.addWidget(self.label)
+        self.comboBox_process = QtWidgets.QComboBox(self.centralwidget)
+        self.comboBox_process.setMinimumSize(QtCore.QSize(150, 0))
+        self.comboBox_process.setObjectName("comboBox_process")
+        self.comboBox_process.addItem("")
+        self.comboBox_process.addItem("")
+        self.comboBox_process.addItem("")
+        self.comboBox_process.addItem("")
+        self.comboBox_process.addItem("")
+        self.horizontalLayout.addWidget(self.comboBox_process)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setObjectName("label_2")
+        self.horizontalLayout.addWidget(self.label_2)
+        self.lineEdit_qrcode_id = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit_qrcode_id.setObjectName("lineEdit_qrcode_id")
+        self.horizontalLayout.addWidget(self.lineEdit_qrcode_id)
+        self.label_3 = QtWidgets.QLabel(self.centralwidget)
+        self.label_3.setObjectName("label_3")
+        self.horizontalLayout.addWidget(self.label_3)
+        self.lineEdit_time_cr_before = MyLineEdit(self.centralwidget)
+        self.lineEdit_time_cr_before.setObjectName("lineEdit_time_cr_before")
+        self.horizontalLayout.addWidget(self.lineEdit_time_cr_before)
+        self.label_4 = QtWidgets.QLabel(self.centralwidget)
+        self.label_4.setObjectName("label_4")
+        self.horizontalLayout.addWidget(self.label_4)
+        self.lineEdit_time_cr_after = MyLineEdit(self.centralwidget)
+        self.lineEdit_time_cr_after.setObjectName("lineEdit_time_cr_after")
+        self.horizontalLayout.addWidget(self.lineEdit_time_cr_after)
+        self.btn_search = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_search.setObjectName("btn_search")
+        self.horizontalLayout.addWidget(self.btn_search)
+        self.btn_tongji = QtWidgets.QPushButton(self.centralwidget)
+        self.btn_tongji.setEnabled(False)
+        self.btn_tongji.setObjectName("btn_tongji")
+        self.horizontalLayout.addWidget(self.btn_tongji)
+        self.verticalLayout.addLayout(self.horizontalLayout)
+        self.tableView = QtWidgets.QTableView(self.centralwidget)
+        self.tableView.setGridStyle(QtCore.Qt.DashDotLine)
+        self.tableView.setObjectName("tableView")
+        self.verticalLayout.addWidget(self.tableView)
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1004, 23))
+        self.menubar.setObjectName("menubar")
+        self.menu = QtWidgets.QMenu(self.menubar)
+        self.menu.setObjectName("menu")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setStatusTip("")
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.actiontuichu = QtWidgets.QAction(MainWindow)
+        self.actiontuichu.setObjectName("actiontuichu")
+        self.menu.addAction(self.actiontuichu)
+        self.menubar.addAction(self.menu.menuAction())
+
+        self.retranslateUi(MainWindow)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "车间生产统计工具"))
+        self.label.setText(_translate("MainWindow", "选择工序"))
+        self.comboBox_process.setItemText(0, _translate("MainWindow", "工序：水刺 | 编码：10"))
+        self.comboBox_process.setItemText(1, _translate("MainWindow", "工序：脱漂烘干 | 编码：20"))
+        self.comboBox_process.setItemText(2, _translate("MainWindow", "工序：检布（验布） | 编码：30"))
+        self.comboBox_process.setItemText(3, _translate("MainWindow", "工序：分切 | 编码：40"))
+        self.comboBox_process.setItemText(4, _translate("MainWindow", "工序：分切覆膜 | 编码：50"))
+        self.label_2.setText(_translate("MainWindow", "一物一码"))
+        self.label_3.setText(_translate("MainWindow", "赋码时间范围"))
+        self.label_4.setText(_translate("MainWindow", "-"))
+        self.btn_search.setText(_translate("MainWindow", "查询"))
+        self.btn_tongji.setText(_translate("MainWindow", "统计"))
+        self.menu.setTitle(_translate("MainWindow", "操作"))
+        self.actiontuichu.setText(_translate("MainWindow", "退出"))
+from Custom import MyLineEdit
