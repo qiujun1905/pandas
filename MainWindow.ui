@@ -2,6 +2,9 @@
 <ui version="4.0">
  <class>MainWindow</class>
  <widget class="QMainWindow" name="MainWindow">
+  <property name="enabled">
+   <bool>true</bool>
+  </property>
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -34,6 +37,11 @@
         </property>
         <item>
          <property name="text">
+          <string>工序：全部工序</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
           <string>工序：水刺 | 编码：10</string>
          </property>
         </item>
@@ -60,14 +68,17 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>一物一码</string>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_qrcode_id"/>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
@@ -77,22 +88,15 @@
        </widget>
       </item>
       <item>
-       <widget class="MyLineEdit" name="lineEdit_time_cr_before"/>
+       <widget class="MyLineEdit" name="lineEdit_time_cr"/>
       </item>
       <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>-</string>
+       <widget class="QPushButton" name="pushButton_class">
+        <property name="enabled">
+         <bool>false</bool>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="MyLineEdit" name="lineEdit_time_cr_after"/>
-      </item>
-      <item>
-       <widget class="QPushButton" name="btn_search">
         <property name="text">
-         <string>查询</string>
+         <string>班次统计</string>
         </property>
        </widget>
       </item>
@@ -102,7 +106,17 @@
          <bool>false</bool>
         </property>
         <property name="text">
-         <string>统计</string>
+         <string>订单号统计</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_export">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>导出</string>
         </property>
        </widget>
       </item>
@@ -110,10 +124,125 @@
     </item>
     <item>
      <widget class="QTableView" name="tableView">
+      <property name="toolTip">
+       <string/>
+      </property>
       <property name="gridStyle">
-       <enum>Qt::DashDotLine</enum>
+       <enum>Qt::SolidLine</enum>
       </property>
      </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>每页</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QComboBox" name="comboBox_rows">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>50</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <item>
+         <property name="text">
+          <string>20</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>50</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>100</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>1000</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>条</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_shang">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>上一页</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_current_page">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>30</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>1</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pushButton_xia">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
+        <property name="text">
+         <string>下一页</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>
@@ -130,6 +259,7 @@
     <property name="title">
      <string>操作</string>
     </property>
+    <addaction name="actionzhuisuo"/>
     <addaction name="actiontuichu"/>
    </widget>
    <addaction name="menu"/>
@@ -142,6 +272,11 @@
   <action name="actiontuichu">
    <property name="text">
     <string>退出</string>
+   </property>
+  </action>
+  <action name="actionzhuisuo">
+   <property name="text">
+    <string>追溯</string>
    </property>
   </action>
  </widget>

@@ -1,23 +1,14 @@
 import io
-import re
 import time
 
-from aip.ocr import AipOcr
-import os
 import requests
 from PIL import Image
 from bs4 import BeautifulSoup
-_APP_ID = '22727944'
-_API_KEY = 'qXdwqmLDArj5b8EiCGGh2wSB'
-_SECRET_KEY = 'sSPb4NDPstQR2DrXvvkUldGft4Mwg5Et'
+import json
 
-client = AipOcr(_APP_ID, _API_KEY, _SECRET_KEY)
+
 
 class Crawl(object):
-# def get_file_content(filePath):
-#     with open(filePath, 'rb') as fp:
-#         return fp.read()
-#
 
     def __init__(self):
         self. headers = {
@@ -46,14 +37,25 @@ class Crawl(object):
         # print(retTitle)
         return retTitle
 
-    def search(self, time_range, process=10, qrcode_id="", rows=10000, page=1, sort="time_cr", order="desc", _=int(time.time()*1000)):
-        if time_range == "~":
-            time_range = ""
-        url = "https://zd.winnermedical.com/admin/zd-production-process-output-reports.json?process={0}&qrcode_id={1}&time_range={2}&rows={3}&page={4}&sort={5}&order={6}&_={7}".format(process, qrcode_id, time_range, rows, page, sort, order, _)
-        json = self.session.get(url).json()
-        # records = json['records']
-        print(type(json))
-        return json
+    def search(self, time_range="", process=0, qrcode_id="", rows=100000, page=1, sort="time_cr", order="desc", _=int(time.time()*1000)):
+        if time_range != "":
+            time_range = "&time_range=" + time_range
+        if process != 0:
+            process= "&process=" + str(process)
+
+        if qrcode_id != "" or qrcode_id is not None:
+            qrcode_id = "&qrcode_id=" + qrcode_id
+        url1 = 'https://zd.winnermedical.com/admin/zd-batches/showQrcode.json?id=1601279100756&status=1&rows=10&page=1&sort=qrcode_id&order=asc&_=1601281846943'
+        url = "https://zd.winnermedical.com/admin/zd-production-process-output-reports." \
+              "json?rows={0}&page={1}&sort={2}&order={3}&_={4}{5}{6}{7}"\
+            .format( rows, page, sort, order, _, process, qrcode_id, time_range)
+        json_data = self.session.get(url).content
+        print(bytes.decode(json_data))
+        if len(json_data) > 0:
+            return json.loads(bytes.decode(json_data))
+        else:
+            return {"data":[],"page":1,"rows":20,"records":0,"code":1,"message":"操作成功"}
+
 if __name__ == '__main__':
     crawl = Crawl()
     print(crawl.login("hbwj@zhedao.net", "hbwj@2020"))

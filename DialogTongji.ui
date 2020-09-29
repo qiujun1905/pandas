@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>235</width>
-    <height>128</height>
+    <width>346</width>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>班次产量统计</string>
+   <string>班次订单产量统计</string>
   </property>
   <property name="modal">
    <bool>true</bool>

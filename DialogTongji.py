@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_dialog_tongji(object):
     def setupUi(self, dialog_tongji):
         dialog_tongji.setObjectName("dialog_tongji")
-        dialog_tongji.resize(235, 128)
+        dialog_tongji.resize(346, 229)
         dialog_tongji.setModal(True)
         self.horizontalLayout = QtWidgets.QHBoxLayout(dialog_tongji)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -26,4 +26,4 @@ class Ui_dialog_tongji(object):
 
     def retranslateUi(self, dialog_tongji):
         _translate = QtCore.QCoreApplication.translate
-        dialog_tongji.setWindowTitle(_translate("dialog_tongji", "班次产量统计"))
+        dialog_tongji.setWindowTitle(_translate("dialog_tongji", "班次订单产量统计"))
