@@ -257,21 +257,19 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.seacth()
 
     def shangyiye(self):
-        current_page = int(self.label_current_page.text())
-        if int(current_page) <= 1:
+        if int(self.current_page) <= 1:
             QMessageBox.information(self, "提示", "已经是第一页了，请稍后...")
             return
         self.current_page -= 1
-        self.label_current_page.setText(str(current_page - 1))
+        self.label_current_page.setText(str(self.current_page))
         self.seacth()
 
     def xiayiye(self):
-        current_page = int(self.current_page)
-        if int(current_page >= self.data_pages):
+        if int(self.current_page >= self.data_pages):
             QMessageBox.information(self, "提示", "已经是最后一页了，请稍后...")
             return
         self.current_page += 1
-        self.label_current_page.setText(str(current_page + 1))
+        self.label_current_page.setText(str(self.current_page))
         self.seacth()
     def exportExcel(self):
         if self.check_time_range():
@@ -321,7 +319,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         df = pandas.DataFrame(datas['data'])
         if len(datas['data']) > 0:
             df['roll_length'] = df['roll_length'].astype(float)
-            df = df.groupby(['production_order','classes',])['roll_length'].sum().reset_index()
+            df = df.groupby(['production_order', 'classes',])['roll_length'].sum().reset_index()
+            # df = df.groupby(['classes'])['roll_length'].sum().reset_index()
+            print(df)
+
             df.rename(columns={'roll_length': '总产量'}, inplace=True)
             df.rename(columns={'classes': '班次'}, inplace=True)
             df.rename(columns={'production_order': '订单号'}, inplace=True)
@@ -388,7 +389,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.datas = json['data']
         self.data_count = json['records']
 
-        if self.data_count % int(self.comboBox_rows.currentText()) == 0 and self.data_count < int(self.comboBox_rows.currentText()):
+        if self.data_count % int(self.comboBox_rows.currentText()) == 0:
             self.data_pages = self.data_count // int(self.comboBox_rows.currentText())
         else:
             self.data_pages = self.data_count // int(self.comboBox_rows.currentText()) + 1

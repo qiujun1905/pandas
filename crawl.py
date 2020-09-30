@@ -37,24 +37,26 @@ class Crawl(object):
         # print(retTitle)
         return retTitle
 
-    def search(self, time_range="", process=0, qrcode_id="", rows=100000, page=1, sort="time_cr", order="desc", _=int(time.time()*1000)):
+    def search(self, time_range="", process=0, qrcode_id="", rows=100000, page=1,
+               sort="time_cr", order="desc", _=int(time.time()*1000)):
         if time_range != "":
             time_range = "&time_range=" + time_range
         if process != 0:
-            process= "&process=" + str(process)
+            process = "&process=" + str(process)
 
         if qrcode_id != "" or qrcode_id is not None:
             qrcode_id = "&qrcode_id=" + qrcode_id
-        url1 = 'https://zd.winnermedical.com/admin/zd-batches/showQrcode.json?id=1601279100756&status=1&rows=10&page=1&sort=qrcode_id&order=asc&_=1601281846943'
         url = "https://zd.winnermedical.com/admin/zd-production-process-output-reports." \
               "json?rows={0}&page={1}&sort={2}&order={3}&_={4}{5}{6}{7}"\
             .format( rows, page, sort, order, _, process, qrcode_id, time_range)
-        json_data = self.session.get(url).content
-        print(bytes.decode(json_data))
-        if len(json_data) > 0:
-            return json.loads(bytes.decode(json_data))
-        else:
-            return {"data":[],"page":1,"rows":20,"records":0,"code":1,"message":"操作成功"}
+        with self.session.get(url) as f:
+            print(len(f.content))
+            json_data = bytes.decode(f.content)
+            print(json_data)
+            if len(json_data) > 0:
+                return json.loads(json_data)
+            else:
+                return {"data": [], "page": 1, "rows": 20, "records": 0, "code": 1, "message": "操作成功"}
 
 if __name__ == '__main__':
     crawl = Crawl()
