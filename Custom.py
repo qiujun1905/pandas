@@ -1,5 +1,5 @@
 from PyQt5.QtCore import pyqtSignal, Qt
-from PyQt5.QtWidgets import QLineEdit
+from PyQt5.QtWidgets import QLineEdit, QMenu
 
 
 class MyLineEdit(QLineEdit):
@@ -9,3 +9,7 @@ class MyLineEdit(QLineEdit):
     if QMouseEvent.button() == Qt.LeftButton:
       self.clicked.emit(self)
 
+
+class Menu(QMenu):
+  def focusInEvent(self, event):
+    print("事件--------->", event)

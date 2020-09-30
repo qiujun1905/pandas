@@ -1,7 +1,7 @@
 import sys
 
 import pandas
-from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel, QUrl, pyqtSlot, QPoint
+from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel, QUrl, pyqtSlot, QPoint, QPropertyAnimation
 from PyQt5.QtGui import *
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import *
@@ -13,11 +13,11 @@ from crawl import Crawl
 from dialog_login import Ui_Dialog_Login
 
 def df_adjustment(df):
-    df.loc[df['process'] == '10', 'process'] = '工序：水刺 | 编码：10'
-    df.loc[df['process'] == '20', 'process'] = '工序：脱漂烘干 | 编码：20'
-    df.loc[df['process'] == '30', 'process'] = '工序：检布（验布） | 编码：30'
-    df.loc[df['process'] == '40', 'process'] = '工序：分切 | 编码：40'
-    df.loc[df['process'] == '50', 'process'] = '工序：分切覆膜 | 编码：50'
+    df.loc[df['process'] == '10', 'process'] = '水刺'
+    df.loc[df['process'] == '20', 'process'] = '脱漂烘干'
+    df.loc[df['process'] == '30', 'process'] = '验布'
+    df.loc[df['process'] == '40', 'process'] = '分切'
+    df.loc[df['process'] == '50', 'process'] = '分切覆膜'
     # ********************调整列位置********************开始
     df.drop(labels=['id'], axis=1, inplace=True)
 
@@ -125,10 +125,13 @@ class DialogTongji(QDialog, Ui_dialog_tongji):
 
     def get_sum(self, df):
         # mainUI.statusBar().showMessage("统计完成", 2000)
-        mainUI.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(mainUI.data_count, mainUI.data_pages, mainUI.current_page))
+        mainUI.label_show_count.setText(
+            "共有{}条数据，页数{},当前页{}".format(mainUI.data_count, mainUI.data_pages, mainUI.current_page))
+        # mainUI.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(mainUI.data_count, mainUI.data_pages, mainUI.current_page))
         model = pandasModel(df)
         self.tableView.setModel(model)
         tongji_ui.show()
+        self.setWindowOpacity(0.8)
 
 # 时间选择框
 class DateEdit(QDialog, Ui_Dialog_Date_Edit):
@@ -139,6 +142,7 @@ class DateEdit(QDialog, Ui_Dialog_Date_Edit):
         self.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(self.writeback)
 
         self.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(self.closeSelf)
+        self.setWindowOpacity(0.8)
         mainUI.passControlSignal.connect(self.getEdit)
 
 
@@ -167,6 +171,7 @@ class ZhuisuoDialog(Ui_ZhuisuoDialog, QDialog):
         self.setupUi(self)
         self.pushButton.clicked.connect(self.zhuisuoClick)
         self.datas = []
+        self.setWindowOpacity(0.8)
 
     def zhuisuoClick(self):
         qrcode_id = self.lineEdit.text()
@@ -175,10 +180,13 @@ class ZhuisuoDialog(Ui_ZhuisuoDialog, QDialog):
         self.search_thread.zhuisuo_signal.connect(self.get_datas)
 
     def get_datas(self, datas):
-        df = pandas.DataFrame(datas)
-        df_adjustment(df)
-        model = pandasModel(df)
-
+        if len(datas) > 0:
+            df = pandas.DataFrame(datas)
+            df_adjustment(df)
+            model = pandasModel(df)
+        else:
+            mainUI.statusBar().showMessage("没有数据", 2000)
+            return
         self.tableView.setModel(model)
 
 class ZhuisuoThread(QThread):
@@ -200,6 +208,7 @@ class ZhuisuoThread(QThread):
     def run(self):
         self.zhuisuo(self.qrcode_id)
         self.zhuisuo_signal.emit(self.datas)
+        mainUI.statusBar().clearMessage()
 
 # mainWindow
 class MyMainWindow(QMainWindow, Ui_MainWindow):
@@ -220,10 +229,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.pushButton_class.clicked.connect(self.actionClassSum)
         self.comboBox_rows.currentIndexChanged.connect(self.comboBox_rows_currentIndexChangeEvent)
 
+        print(self.menu.hasMouseTracking(), "------------->鼠标跟踪")
+        self.menu.triggered.connect(lambda: print("------------>focusChanged"))
         self.actiontuichu.triggered.connect(app.quit)
         self.actionzhuisuo.triggered.connect(self.zhuisuoSearch)
         self.datas = []
         self.current_page = int(self.label_current_page.text())
+
 
         # self.setWindowFlags(Qt.FramelessWindowHint)  # 设置窗口标志：隐藏窗口边框
         self.setWindowOpacity(0.8)
@@ -231,7 +243,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def zhuisuoSearch(self):
         zhuisuoDialog = ZhuisuoDialog(mainUI)
-        zhuisuoDialog.showNormal()
+        zhuisuoDialog.show()
 
 
     def comboBox_rows_currentIndexChangeEvent(self):
@@ -274,8 +286,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def export(self, datas):
         json_data = datas['data']
-        self.statusBar().showMessage("完成", 2000)
-        self.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
+        mainUI.label_show_count.setText("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
+        # self.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
         fileName, file = QFileDialog.getSaveFileName(self, "导出Excel",
                                                "untitled.xls",
                                                "Excel (*.xls *.xlsx)")
@@ -381,7 +393,9 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         else:
             self.data_pages = self.data_count // int(self.comboBox_rows.currentText()) + 1
 
-        self.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
+        mainUI.label_show_count.setText(
+            "共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
+        # self.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
 
         if len(self.datas) == 0:
             self.statusBar().showMessage('没有数据', 2000)
@@ -414,7 +428,7 @@ class Search_Data(QThread):
                                         process=self.params['process'],
                                         rows=self.params['rows'],
                                         page=self.params['page'])
-        except Exception :
+        except Exception:
             mainUI.statusBar().showMessage("服务器错误...", 2000)
             return
         finally:
@@ -425,6 +439,7 @@ class Search_Data(QThread):
             mainUI.btn_tongji.setEnabled(True)
             mainUI.pushButton_export.setEnabled(True)
             mainUI.pushButton_class.setEnabled(True)
+            mainUI.statusBar().clearMessage()
         self.display_signal.emit(json)
 
 # 登录窗口
@@ -437,6 +452,11 @@ class LoginUI(QDialog, Ui_Dialog_Login):
         self.setCapcha()
         self.btn_login.clicked.connect(self.login)  # 按钮事件绑定
         self.pushButton_shuaxin.clicked.connect(self.setCapcha)
+        self.setWindowOpacity(0.8)
+
+    def keyPressSlot(self, keyEvent):
+        if keyEvent.key() == Qt.Key_Enter:
+            self.btn_login.click()
 
     # 爬取验证码并显示
     def setCapcha(self):
@@ -451,6 +471,12 @@ class LoginUI(QDialog, Ui_Dialog_Login):
         size = self.geometry()
         self.move((screen.width() - size.width()) / 2,
                   (screen.height() - size.height()) / 2)
+
+
+    def keyPressEvent(self, keyEvent):
+        print(keyEvent.key())
+        if keyEvent.key() == Qt.Key_Return:
+            self.btn_login.click()
 
 
     # 登录

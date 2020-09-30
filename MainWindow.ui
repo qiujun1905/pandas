@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1004</width>
-    <height>609</height>
+    <height>608</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -134,6 +134,13 @@
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_show_count">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
