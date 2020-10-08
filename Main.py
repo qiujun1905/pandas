@@ -1,7 +1,8 @@
 import sys
 
 import pandas
-from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel, QUrl, pyqtSlot, QPoint, QPropertyAnimation
+from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel, QUrl, pyqtSlot, QPoint, QPropertyAnimation, \
+    QEvent
 from PyQt5.QtGui import *
 from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import *
@@ -185,6 +186,7 @@ class ZhuisuoDialog(Ui_ZhuisuoDialog, QDialog):
             df_adjustment(df)
             model = pandasModel(df)
         else:
+            self.tableView.setModel(None)
             mainUI.statusBar().showMessage("没有数据", 2000)
             return
         self.tableView.setModel(model)
@@ -240,7 +242,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         # self.setWindowFlags(Qt.FramelessWindowHint)  # 设置窗口标志：隐藏窗口边框
         self.setWindowOpacity(0.8)
 
-
+    def changeEvent(self, e):
+        print(e.WindowStateChange)
+        if (e.WindowStateChange == 105):
+            if self.isMaximized():
+                self.comboBox_rows.setCurrentIndex(1)
+            else:
+                self.comboBox_rows.setCurrentIndex(0)
     def zhuisuoSearch(self):
         zhuisuoDialog = ZhuisuoDialog(mainUI)
         zhuisuoDialog.show()
@@ -397,8 +405,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         mainUI.label_show_count.setText(
             "共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
         # self.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
-
         if len(self.datas) == 0:
+            self.tableView.setModel(None)
             self.statusBar().showMessage('没有数据', 2000)
             return
 

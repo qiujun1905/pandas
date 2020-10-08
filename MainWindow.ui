@@ -283,7 +283,7 @@
   </action>
   <action name="actionzhuisuo">
    <property name="text">
-    <string>追溯</string>
+    <string>&amp;追溯</string>
    </property>
   </action>
  </widget>

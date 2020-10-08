@@ -146,5 +146,5 @@ class Ui_MainWindow(object):
         self.pushButton_xia.setText(_translate("MainWindow", "下一页"))
         self.menu.setTitle(_translate("MainWindow", "操作"))
         self.actiontuichu.setText(_translate("MainWindow", "退出"))
-        self.actionzhuisuo.setText(_translate("MainWindow", "追溯"))
+        self.actionzhuisuo.setText(_translate("MainWindow", "&z追溯"))
 from Custom import MyLineEdit
