@@ -25,6 +25,9 @@
   <property name="windowTitle">
    <string>车间生产数据统计工具</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-image: url(:/login/login1.png);</string>
+  </property>
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
@@ -93,7 +96,7 @@
          </size>
         </property>
         <property name="text">
-         <string>hbwj@zhedao.net</string>
+         <string>hbwj@winn</string>
         </property>
         <property name="placeholderText">
          <string>请输用户名</string>
@@ -249,6 +252,8 @@
    </layout>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="resouces.qrc"/>
+ </resources>
  <connections/>
 </ui>

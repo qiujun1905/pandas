@@ -58,7 +58,11 @@ def df_adjustment(df):
     df.drop(labels=['production_order'], axis=1, inplace=True)
     df.insert(0, 'production_order', production_order)
 
+    factory_code = df['factory_code']
+    df.drop(labels=['factory_code'], axis=1, inplace=True)
+    df.insert(0, 'factory_code', factory_code)
     # ********************调整列位置********************结束
+
     df.rename(columns={'qrcode_id': '一物一码'}, inplace=True)
     df.rename(columns={'gds_id': 'gds_id'}, inplace=True)
     df.rename(columns={'front_qr_code': '上工序一物一码'}, inplace=True)
@@ -75,7 +79,7 @@ def df_adjustment(df):
     df.rename(columns={'inspector': '检查员'}, inplace=True)
     df.rename(columns={'producer': '生产者'}, inplace=True)
     df.rename(columns={'package_no': '包号'}, inplace=True)
-    df.rename(columns={'machine_number': '机器编号'}, inplace=True)
+    df.rename(columns={'machine_number': '机台号'}, inplace=True)
     df.rename(columns={'cotton_blending_ratio': '配棉比例'}, inplace=True)
     df.rename(columns={'width_cloth': '幅宽'}, inplace=True)
     df.rename(columns={'remark': '生产备注'}, inplace=True)
@@ -93,6 +97,8 @@ def df_adjustment(df):
     df.rename(columns={'username': 'PDA USER'}, inplace=True)
     df.rename(columns={'batch_type': '批次类型'}, inplace=True)
     df.rename(columns={'production_order': '订单号'}, inplace=True)
+    df.rename(columns={'joint_number': '接头数'}, inplace=True)
+    df.rename(columns={'factory_code': '工厂编码'}, inplace=True)
 # ********************DataFrame数据源********************开始
 class pandasModel(QAbstractTableModel):
 
@@ -451,6 +457,7 @@ class Search_Data(QThread):
             mainUI.statusBar().clearMessage()
         self.display_signal.emit(json)
 
+import qtawesome as qta
 # 登录窗口
 class LoginUI(QDialog, Ui_Dialog_Login):
     def __init__(self):
@@ -462,6 +469,8 @@ class LoginUI(QDialog, Ui_Dialog_Login):
         self.btn_login.clicked.connect(self.login)  # 按钮事件绑定
         self.pushButton_shuaxin.clicked.connect(self.setCapcha)
         self.setWindowOpacity(0.8)
+        fa5_icon = qta.icon('fa5.flag')
+        self.btn_login.setIcon(fa5_icon)
 
     def keyPressSlot(self, keyEvent):
         if keyEvent.key() == Qt.Key_Enter:
