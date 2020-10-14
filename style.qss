@@ -1,0 +1,148 @@
+1.QLabel
+
+QLabel#label_sum_text{
+font: 75 35pt “微软雅黑”; /字体/
+
+background-color: rgb(255, 255, 255); /背景色/
+
+color: rgb(152, 156, 156); /字体颜色/
+
+border-style:hidden; /边框样式/
+
+padding: 1px 1px 8px 1px; /四周边距/
+
+}
+
+2.QToolButton、QPushButton
+
+/按钮正常显示/
+
+QToolButton#toolButton_7{
+border-image: url(
+
+:/keybord_cfm/images/keybord_cfm/u63.png);
+
+}
+
+/按钮按下/
+
+QToolButton#toolButton_7::pressed{
+border-image: url(
+
+:/keybord_cfm/images/keybord_cfm/u63_mouseOver.png);
+
+}
+
+/鼠标移到按钮上时/
+
+QToolButton#toolButton_7::hover{
+border-image: url(
+
+:/keybord_cfm/images/keybord_cfm/u63_mouseOver.png);
+
+}
+
+注意：border-image适用于所有控件
+
+3.QFrame
+
+QFrame#frame_right_top{
+border-style:solid; /边框样式/
+
+border-width:1px; /边框宽度/
+
+border-radius: 6px; /圆角边框/
+
+border-color: rgb(173, 176, 182); /边框颜色/
+
+background-color: rgb(255, 255, 255); /背景色/
+
+}
+
+4.QTableView
+
+/设置行交替颜色/
+
+QTableView::item:alternate:!selected,
+
+QTableWidget::item:alternate:!selected,
+
+QListView::item:alternate:!selected
+
+{ background: rgb(255, 255, 204); }
+
+QTableView::item:!alternate:!selected,
+
+QTableWidget::item:!alternate:!selected,
+
+QListView::item:!alternate:!selected
+
+{ background: rgb(248, 236, 212); }
+
+QTableView{
+font: 11pt “微软雅黑”;
+
+color: rgb(152, 152, 152);
+
+selection-background-color: rgb(50, 151, 243);
+
+}
+
+QTableView::item:selected{
+color: rgb(152, 152, 152);
+
+background:rgb(248, 236, 212); /选中行背景色/
+
+}
+
+/表头设置/
+
+QTableView QHeaderView
+
+{
+background-color: rgb(248, 248, 248);
+
+font: 12pt “微软雅黑”;
+
+color: rgb(112, 112, 112);
+
+}
+
+/水平表头/
+
+QHeaderView::section::horizontal {
+padding: 0px;
+
+border: none;
+
+border-bottom: 1px solid rgb(214, 215, 218);
+
+background-color: rgb(248, 248, 248);
+
+}
+
+/垂直表头/
+
+QHeaderView::section::vertical {
+padding: 5px;
+
+border: none;
+
+background-color: rgb(248, 248, 248);
+
+alternate-background-color: rgb(255, 0, 0);
+
+}
+
+/左上角按钮/
+
+QTableCornerButton::section {
+padding: 0px;
+
+border: none;
+
+border-bottom: 1px solid rgb(214, 215, 218);
+
+background-color: rgb(248, 248, 248);
+
+}
