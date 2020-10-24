@@ -512,12 +512,30 @@ class LoginUI(QDialog, Ui_Dialog_Login):
             self.lineEdit_capcha.clear()
             QMessageBox.information(self, '提示', loginTitle)
             self.setCapcha()
+
+
+class CommonHelper(object):
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def readQss(style):
+        with open(style, 'r', encoding='UTF-8') as f:
+            return f.read()
+
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+
 
     loginUI = LoginUI()
 
     mainUI = MyMainWindow()
+
+    styleFile = './style.qss'
+    qssStyle = CommonHelper.readQss(styleFile)
+    mainUI.setStyleSheet(qssStyle)
 
     dateEditDialog = DateEdit(mainUI)
 

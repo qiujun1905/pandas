@@ -17,6 +17,7 @@ class Ui_Dialog_Login(object):
         Dialog_Login.resize(400, 250)
         Dialog_Login.setMinimumSize(QtCore.QSize(400, 250))
         Dialog_Login.setMaximumSize(QtCore.QSize(400, 250))
+        Dialog_Login.setStyleSheet("background-image: url(:/login/login1.png);")
         self.layoutWidget = QtWidgets.QWidget(Dialog_Login)
         self.layoutWidget.setGeometry(QtCore.QRect(60, 10, 281, 221))
         self.layoutWidget.setObjectName("layoutWidget")
@@ -106,3 +107,4 @@ class Ui_Dialog_Login(object):
         self.lineEdit_capcha.setPlaceholderText(_translate("Dialog_Login", "验证码"))
         self.pushButton_shuaxin.setText(_translate("Dialog_Login", "刷新"))
         self.btn_login.setText(_translate("Dialog_Login", "登录"))
+import resouces_rc

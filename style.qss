@@ -1,4 +1,3 @@
-1.QLabel
 
 QLabel#label_sum_text{
 font: 75 35pt “微软雅黑”; /字体/
@@ -13,9 +12,8 @@ padding: 1px 1px 8px 1px; /四周边距/
 
 }
 
-2.QToolButton、QPushButton
 
-/按钮正常显示/
+/*按钮正常显示*/
 
 QToolButton#toolButton_7{
 border-image: url(
@@ -24,7 +22,7 @@ border-image: url(
 
 }
 
-/按钮按下/
+/*按钮按下*/
 
 QToolButton#toolButton_7::pressed{
 border-image: url(
@@ -33,7 +31,7 @@ border-image: url(
 
 }
 
-/鼠标移到按钮上时/
+/*鼠标移到按钮上时*/
 
 QToolButton#toolButton_7::hover{
 border-image: url(
@@ -42,9 +40,7 @@ border-image: url(
 
 }
 
-注意：border-image适用于所有控件
 
-3.QFrame
 
 QFrame#frame_right_top{
 border-style:solid; /边框样式/
@@ -59,9 +55,8 @@ background-color: rgb(255, 255, 255); /背景色/
 
 }
 
-4.QTableView
 
-/设置行交替颜色/
+/*设置行交替颜色*/
 
 QTableView::item:alternate:!selected,
 
@@ -95,7 +90,7 @@ background:rgb(248, 236, 212); /选中行背景色/
 
 }
 
-/表头设置/
+/*表头设置*/
 
 QTableView QHeaderView
 
@@ -108,7 +103,7 @@ color: rgb(112, 112, 112);
 
 }
 
-/水平表头/
+/*水平表头*/
 
 QHeaderView::section::horizontal {
 padding: 0px;
@@ -121,7 +116,7 @@ background-color: rgb(248, 248, 248);
 
 }
 
-/垂直表头/
+/*垂直表头*/
 
 QHeaderView::section::vertical {
 padding: 5px;
@@ -134,7 +129,7 @@ alternate-background-color: rgb(255, 0, 0);
 
 }
 
-/左上角按钮/
+/*左上角按钮*/
 
 QTableCornerButton::section {
 padding: 0px;
