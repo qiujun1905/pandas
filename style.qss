@@ -2,6 +2,22 @@ QListView::item:!alternate:!selected
 
 { background: rgb(248, 236, 212); }
 
+#label_show_count{
+background-color: rgb(248, 248, 248);
+
+font: 12pt "微软雅黑";
+
+color: rgb(112, 112, 112);
+}
+
+QLineEdit{
+background-color: rgb(248, 248, 248);
+
+font: 12pt "微软雅黑";
+
+color: rgb(112, 112, 112);
+}
+
 QTableView{
 font: 11pt "微软雅黑";
 

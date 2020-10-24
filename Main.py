@@ -1,5 +1,4 @@
 import sys
-
 import pandas
 from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel, QUrl, pyqtSlot, QPoint, QPropertyAnimation, \
     QEvent
