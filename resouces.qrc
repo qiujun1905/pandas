@@ -3,4 +3,7 @@
     <file>login1.png</file>
     <file>login.jpg</file>
   </qresource>
+  <qresource prefix="main">
+    <file>resouces/style.qss</file>
+  </qresource>
 </RCC>

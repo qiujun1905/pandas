@@ -22,6 +22,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="resouces.qrc"/>
+ </resources>
  <connections/>
 </ui>

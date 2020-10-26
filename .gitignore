@@ -236,5 +236,3 @@ pip-selfcheck.json
 .idea/productionProcesses.iml
 .idea/vcs.xml
 .ipynb_checkpoints/
-Main.spec
-resouces_rc.py

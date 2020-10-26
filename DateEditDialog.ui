@@ -20,10 +20,10 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">
      <item>
-      <widget class="QCalendarWidget" name="calendarWidget_a"/>
+      <widget class="QCalendarWidget" name="calendarWidget_b"/>
      </item>
      <item>
-      <widget class="QCalendarWidget" name="calendarWidget_b"/>
+      <widget class="QCalendarWidget" name="calendarWidget_a"/>
      </item>
     </layout>
    </item>

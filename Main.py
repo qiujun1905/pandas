@@ -513,16 +513,110 @@ class LoginUI(QDialog, Ui_Dialog_Login):
             self.setCapcha()
 
 
-class CommonHelper(object):
-    def __init__(self):
-        pass
+# class CommonHelper(object):
+#     def __init__(self):
+#         pass
+#
+#     @staticmethod
+#     def readQss(style):
+#         with open(style, 'r', encoding='UTF-8') as f:
+#             return f.read()
 
-    @staticmethod
-    def readQss(style):
-        with open(style, 'r', encoding='UTF-8') as f:
-            return f.read()
+
+qss = """
+QListView::item:!alternate:!selected
+
+{ background: rgb(248, 236, 212); }
+
+#label_show_count{
+background-color: rgb(248, 248, 248);
+
+font: 12pt "微软雅黑";
+
+color: rgb(22, 112, 112);
+}
+
+QLineEdit{
+background-color: rgb(0, 248, 248);
+
+font: 12pt "微软雅黑";
+
+color: rgb(112, 44, 112);
+}
+
+QTableView{
+font: 11pt "微软雅黑";
+
+color: rgb(152, 152, 0);
+
+selection-background-color: rgb(50, 151, 243);
+
+}
+
+QTableView::item:selected{
+color: rgb(152, 152, 152);
+
+background:rgb(248, 236, 212);
+
+}
 
 
+QComboBox{
+    background-color: rgb(0, 248, 248);
+}
+
+/*表头设置*/
+
+QTableView QHeaderView
+
+{
+background-color: rgb(248, 248, 248);
+
+font: 12pt "微软雅黑";
+
+color: rgb(112, 112, 112);
+
+}
+
+/*水平表头*/
+
+QHeaderView::section {
+padding: 0px;
+
+border: none;
+
+border-bottom: 1px solid rgb(214, 215, 218);
+
+background-color: rgb(248, 248, 248);
+
+}
+
+/*垂直表头*/
+
+QHeaderView::section{
+padding: 5px;
+
+border: none;
+
+background-color: rgb(248, 248, 248);
+
+alternate-background-color: rgb(255, 0, 0);
+
+}
+
+/*左上角按钮*/
+
+QTableCornerButton::section {
+padding: 0px;
+
+border: none;
+
+border-bottom: 1px solid rgb(214, 215, 218);
+
+background-color: rgb(248, 248, 248);
+
+}
+"""
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
@@ -532,13 +626,12 @@ if __name__ == '__main__':
 
     mainUI = MyMainWindow()
 
-    styleFile = './style.qss'
-    qssStyle = CommonHelper.readQss(styleFile)
-    mainUI.setStyleSheet(qssStyle)
+    mainUI.setStyleSheet(qss)
 
     dateEditDialog = DateEdit(mainUI)
 
     tongji_ui = DialogTongji(mainUI)
+
 
     loginUI.show()
     sys.exit(app.exec_())
