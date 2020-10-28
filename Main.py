@@ -244,7 +244,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.current_page = int(self.label_current_page.text())
 
 
-        # self.setWindowFlags(Qt.FramelessWindowHint)  # 设置窗口标志：隐藏窗口边框
+        # self.setWindowFlags(Qt.Framele    ssWindowHint)  # 设置窗口标志：隐藏窗口边框
         self.setWindowOpacity(0.8)
 
     def changeEvent(self, e):

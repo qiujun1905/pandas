@@ -9,12 +9,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1004</width>
-    <height>608</height>
+    <width>1024</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>车间生产统计工具</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -133,6 +136,9 @@
      <widget class="QTableView" name="tableView">
       <property name="toolTip">
        <string/>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="gridStyle">
        <enum>Qt::SolidLine</enum>
@@ -265,7 +271,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1004</width>
+     <width>1024</width>
      <height>23</height>
     </rect>
    </property>
