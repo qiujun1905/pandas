@@ -1,9 +1,8 @@
 import sys
+
 import pandas
-from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel, QUrl, pyqtSlot, QPoint, QPropertyAnimation, \
-    QEvent
+from PyQt5.QtCore import pyqtSignal, Qt, QThread, QAbstractTableModel
 from PyQt5.QtGui import *
-from PyQt5.QtSql import QSqlQueryModel
 from PyQt5.QtWidgets import *
 
 from DateEditDialog import Ui_Dialog_Date_Edit
@@ -11,6 +10,7 @@ from DialogTongji import Ui_dialog_tongji
 from MainWindow import Ui_MainWindow
 from crawl import Crawl
 from dialog_login import Ui_Dialog_Login
+
 
 def df_adjustment(df):
     df.loc[df['process'] == '10', 'process'] = '水刺'
