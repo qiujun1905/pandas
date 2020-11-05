@@ -82,7 +82,7 @@ def df_adjustment(df):
     df.rename(columns={'cotton_blending_ratio': '配棉比例'}, inplace=True)
     df.rename(columns={'width_cloth': '幅宽'}, inplace=True)
     df.rename(columns={'remark': '生产备注'}, inplace=True)
-    df.rename(columns={'time_into': '导入时间'}, inplace=True)
+    df.rename(columns={'time_into': '上传时间'}, inplace=True)
     df.rename(columns={'batch_id': '批次编号'}, inplace=True)
     df.rename(columns={'bs_id': 'bs_id'}, inplace=True)
     df.rename(columns={'operator_id': '操作员编号'}, inplace=True)
@@ -314,8 +314,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def center(self):
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        self.move((screen.width() - size.width()) // 2,
+                  (screen.height() - size.height()) // 2)
 
     def timeEidtClicked(self, edit):
         print("========>" + str(edit))
@@ -486,8 +486,8 @@ class LoginUI(QDialog, Ui_Dialog_Login):
     def center(self):
         screen = QDesktopWidget().screenGeometry()
         size = self.geometry()
-        self.move((screen.width() - size.width()) / 2,
-                  (screen.height() - size.height()) / 2)
+        self.move((screen.width() - size.width()) // 2,
+                  (screen.height() - size.height()) // 2)
 
 
     def keyPressEvent(self, keyEvent):
