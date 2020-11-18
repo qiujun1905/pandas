@@ -13,6 +13,11 @@ from dialog_login import Ui_Dialog_Login
 
 
 def df_adjustment(df):
+    """
+    字段翻译排序
+    :param df:
+    :return:
+    """
     df.loc[df['process'] == '10', 'process'] = '水刺'
     df.loc[df['process'] == '20', 'process'] = '脱漂烘干'
     df.loc[df['process'] == '30', 'process'] = '验布'
@@ -20,6 +25,10 @@ def df_adjustment(df):
     df.loc[df['process'] == '50', 'process'] = '分切覆膜'
     # ********************调整列位置********************开始
     df.drop(labels=['id'], axis=1, inplace=True)
+
+    time_into = df['time_into']
+    df.drop(labels=['time_into'], axis=1, inplace=True)
+    df.insert(0, 'time_into', time_into)
 
     time_cr = df['time_cr']
     df.drop(labels=['time_cr'], axis=1, inplace=True)
@@ -82,13 +91,12 @@ def df_adjustment(df):
     df.rename(columns={'cotton_blending_ratio': '配棉比例'}, inplace=True)
     df.rename(columns={'width_cloth': '幅宽'}, inplace=True)
     df.rename(columns={'remark': '生产备注'}, inplace=True)
-    df.rename(columns={'time_into': '上传时间'}, inplace=True)
     df.rename(columns={'batch_id': '批次编号'}, inplace=True)
     df.rename(columns={'bs_id': 'bs_id'}, inplace=True)
     df.rename(columns={'operator_id': '操作员编号'}, inplace=True)
     df.rename(columns={'syn': 'syn'}, inplace=True)
     df.rename(columns={'time_cr': '赋码时间'}, inplace=True)
-    df.rename(columns={'time_into': 'time_into'}, inplace=True)
+    df.rename(columns={'time_into': '上传时间'}, inplace=True)
     df.rename(columns={'product_name': '产品名称'}, inplace=True)
     df.rename(columns={'machName': '单位'}, inplace=True)
     df.rename(columns={'material_code': '物料编号'}, inplace=True)
@@ -98,8 +106,13 @@ def df_adjustment(df):
     df.rename(columns={'production_order': '订单号'}, inplace=True)
     df.rename(columns={'joint_number': '接头数'}, inplace=True)
     df.rename(columns={'factory_code': '工厂编码'}, inplace=True)
+
+
 # ********************DataFrame数据源********************开始
 class pandasModel(QAbstractTableModel):
+    """
+    使用dataframe做tableview的数据源
+    """
 
     def __init__(self, data):
         QAbstractTableModel.__init__(self)
@@ -110,6 +123,7 @@ class pandasModel(QAbstractTableModel):
 
     def columnCount(self, parnet=None):
         return self._data.shape[1]
+
     def data(self, index, role=Qt.DisplayRole):
         if index.isValid():
             if role == Qt.DisplayRole:
@@ -120,6 +134,8 @@ class pandasModel(QAbstractTableModel):
         if orientation == Qt.Horizontal and role == Qt.DisplayRole:
             return self._data.columns[col]
         return None
+
+
 # ********************DataFrame数据源********************结束
 
 class DialogTongji(QDialog, Ui_dialog_tongji):
@@ -136,8 +152,10 @@ class DialogTongji(QDialog, Ui_dialog_tongji):
         # mainUI.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(mainUI.data_count, mainUI.data_pages, mainUI.current_page))
         model = pandasModel(df)
         self.tableView.setModel(model)
+        self.tableView.horizontalHeader().setStyleSheet("")
         tongji_ui.show()
         self.setWindowOpacity(0.8)
+
 
 # 时间选择框
 class DateEdit(QDialog, Ui_Dialog_Date_Edit):
@@ -151,12 +169,10 @@ class DateEdit(QDialog, Ui_Dialog_Date_Edit):
         self.setWindowOpacity(0.8)
         mainUI.passControlSignal.connect(self.getEdit)
 
-
         # self.move()
 
     def getEdit(self, edit):
         self.currentEdit = edit
-
 
     def writeback(self, edit):
         # print("=====================>" + str(edit))
@@ -170,7 +186,11 @@ class DateEdit(QDialog, Ui_Dialog_Date_Edit):
     def closeSelf(self):
         mainUI.lineEdit_time_cr.clear()
         self.close()
+
+
 from ZhuisuoDialog import Ui_ZhuisuoDialog
+
+
 class ZhuisuoDialog(Ui_ZhuisuoDialog, QDialog):
     def __init__(self, parent=None):
         super(ZhuisuoDialog, self).__init__(parent)
@@ -196,8 +216,10 @@ class ZhuisuoDialog(Ui_ZhuisuoDialog, QDialog):
             return
         self.tableView.setModel(model)
 
+
 class ZhuisuoThread(QThread):
     zhuisuo_signal = pyqtSignal(list)
+
     def __init__(self, qrcode_id):
         super(ZhuisuoThread, self).__init__()
         self.qrcode_id = qrcode_id
@@ -212,14 +234,17 @@ class ZhuisuoThread(QThread):
                 self.zhuisuo(data['front_qr_code'])
             else:
                 self.datas.append(data)
+
     def run(self):
         self.zhuisuo(self.qrcode_id)
         self.zhuisuo_signal.emit(self.datas)
         mainUI.statusBar().clearMessage()
 
+
 # mainWindow
 class MyMainWindow(QMainWindow, Ui_MainWindow):
     passControlSignal = pyqtSignal(QLineEdit)
+
     def __init__(self):
         super(MyMainWindow, self).__init__()
         self.setupUi(self)
@@ -243,21 +268,20 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.datas = []
         self.current_page = int(self.label_current_page.text())
 
-
         # self.setWindowFlags(Qt.Framele    ssWindowHint)  # 设置窗口标志：隐藏窗口边框
         self.setWindowOpacity(0.8)
 
     def changeEvent(self, e):
-        print(e.WindowStateChange)
-        if (e.WindowStateChange == 105):
+        # print(e.WindowStateChange)
+        if (e.WindowStateChange == Qt.WA_X11NetWmWindowTypeDock):
             if self.isMaximized():
                 self.comboBox_rows.setCurrentIndex(1)
             else:
                 self.comboBox_rows.setCurrentIndex(0)
+
     def zhuisuoSearch(self):
         zhuisuoDialog = ZhuisuoDialog(mainUI)
         zhuisuoDialog.show()
-
 
     def comboBox_rows_currentIndexChangeEvent(self):
         self.current_page = 1
@@ -284,30 +308,33 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.current_page += 1
         self.label_current_page.setText(str(self.current_page))
         self.seacth()
+
     def exportExcel(self):
         if self.check_time_range():
             self.statusBar().showMessage("正在获取数据中，请稍后...")
 
-            self.search = Search_Data({'rows':self.data_count,
+            self.search = Search_Data({'rows': self.data_count,
                                        'page': 1,
                                        'qrcode_id': '',
-                                       'process': self.comboBox_process.currentIndex()*10})
+                                       'process': self.comboBox_process.currentIndex() * 10})
             self.search.start()
             self.search.display_signal.connect(self.export)
 
     def export(self, datas):
         json_data = datas['data']
-        mainUI.label_show_count.setText("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
+        mainUI.label_show_count.setText(
+            "共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
         # self.statusBar().showMessage("共有{}条数据，页数{},当前页{}".format(self.data_count, self.data_pages, self.current_page))
         fileName, file = QFileDialog.getSaveFileName(self, "导出Excel",
-                                               "untitled.xls",
-                                               "Excel (*.xls *.xlsx)")
+                                                     "untitled.xls",
+                                                     "Excel (*.xls *.xlsx)")
         print(file)
         if fileName == "" or fileName is None:
             return False
         df = pandas.DataFrame(json_data)
         df_adjustment(df)
         df.to_excel(fileName, index=False)
+
     def setText(self):
         self.lineEdit_page.setText("0")
 
@@ -322,8 +349,8 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         dateEditDialog.buttonBox.button(QDialogButtonBox.Ok).clicked.connect(dateEditDialog.writeback)
         dateEditDialog.buttonBox.button(QDialogButtonBox.Cancel).clicked.connect(dateEditDialog.closeSelf)
         self.passControlSignal.emit(edit)
-        dateEditDialog.move(dateEditDialog.currentEdit.x()+mainUI.x(), mainUI.y()
-                            +dateEditDialog.currentEdit.y()+dateEditDialog.currentEdit.height()+54)
+        dateEditDialog.move(dateEditDialog.currentEdit.x() + mainUI.x(), mainUI.y()
+                            + dateEditDialog.currentEdit.y() + dateEditDialog.currentEdit.height() + 54)
         dateEditDialog.show()
 
     pass_tongji_signal = pyqtSignal(pandas.DataFrame)
@@ -332,7 +359,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         df = pandas.DataFrame(datas['data'])
         if len(datas['data']) > 0:
             df['roll_length'] = df['roll_length'].astype(float)
-            df = df.groupby(['production_order', 'classes',])['roll_length'].sum().reset_index()
+            df = df.groupby(['production_order', 'classes', ])['roll_length'].sum().reset_index()
             # df = df.groupby(['classes'])['roll_length'].sum().reset_index()
             print(df)
 
@@ -342,14 +369,13 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
             print(df)
         self.pass_tongji_signal.emit(df)
 
-
     def actionClassSum(self):
         if self.check_time_range():
             self.statusBar().showMessage("正在计算中，请稍后...")
-            self.searchThread = Search_Data({'rows':self.data_count,
-                                       'page': 1,
-                                       'qrcode_id': '',
-                                       'process': self.comboBox_process.currentIndex()*10})
+            self.searchThread = Search_Data({'rows': self.data_count,
+                                             'page': 1,
+                                             'qrcode_id': '',
+                                             'process': self.comboBox_process.currentIndex() * 10})
             self.searchThread.start()
             self.searchThread.display_signal.connect(self.classSum)
 
@@ -367,10 +393,10 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
     def actionSum(self):
         if self.check_time_range():
             self.statusBar().showMessage("正在计算中，请稍后...")
-            self.searchThread = Search_Data({'rows':self.data_count,
-                                       'page': 1,
-                                       'qrcode_id': '',
-                                       'process': self.comboBox_process.currentIndex()*10})
+            self.searchThread = Search_Data({'rows': self.data_count,
+                                             'page': 1,
+                                             'qrcode_id': '',
+                                             'process': self.comboBox_process.currentIndex() * 10})
             self.searchThread.start()
             self.searchThread.display_signal.connect(self.sum)
 
@@ -387,7 +413,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def seacth(self):
         self.statusBar().showMessage("正在查询中，请稍后...")
-        #time_range=time_range, process=self.params['process'],
+        # time_range=time_range, process=self.params['process'],
         # qrcode_id=self.params['qrcode_id'],rows=self.params['rows'], page=self.params['page']
         self.search = Search_Data({'process': (int(self.comboBox_process.currentIndex())) * 10,
                                    'rows': self.comboBox_rows.currentText(),
@@ -395,7 +421,6 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
         self.search.display_signal.connect(self.fill_grid)
         self.search.start()
         # search.wait()
-
 
     def fill_grid(self, json):
 
@@ -424,10 +449,12 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
 # 爬取数据的线程
 class Search_Data(QThread):
-    display_signal = pyqtSignal(dict) ##此处定义了一个信号，可以用来与主程序交互
+    display_signal = pyqtSignal(dict)  ##此处定义了一个信号，可以用来与主程序交互
+
     def __init__(self, params):
         super().__init__()  ## 继承QThread
         self.params = params
+
     def run(self):
         time_range = mainUI.lineEdit_time_cr.text()
 
@@ -456,7 +483,10 @@ class Search_Data(QThread):
             mainUI.statusBar().clearMessage()
         self.display_signal.emit(json)
 
+
 import qtawesome as qta
+
+
 # 登录窗口
 class LoginUI(QDialog, Ui_Dialog_Login):
     def __init__(self):
@@ -489,12 +519,10 @@ class LoginUI(QDialog, Ui_Dialog_Login):
         self.move((screen.width() - size.width()) // 2,
                   (screen.height() - size.height()) // 2)
 
-
     def keyPressEvent(self, keyEvent):
         print(keyEvent.key())
         if keyEvent.key() == Qt.Key_Return:
             self.btn_login.click()
-
 
     # 登录
     def login(self):
@@ -621,7 +649,6 @@ background-color: rgb(248, 248, 248);
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-
     loginUI = LoginUI()
 
     mainUI = MyMainWindow()
@@ -632,8 +659,5 @@ if __name__ == '__main__':
 
     tongji_ui = DialogTongji(mainUI)
 
-
     loginUI.show()
     sys.exit(app.exec_())
-
-

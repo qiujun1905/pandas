@@ -89,12 +89,12 @@
             <widget class="QPushButton" name="pushButton">
              <property name="maximumSize">
               <size>
-               <width>50</width>
+               <width>68</width>
                <height>16777215</height>
               </size>
              </property>
              <property name="text">
-              <string>追溯</string>
+              <string>追踪溯源</string>
              </property>
             </widget>
            </item>
