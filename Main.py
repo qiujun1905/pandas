@@ -273,7 +273,7 @@ class MyMainWindow(QMainWindow, Ui_MainWindow):
 
     def changeEvent(self, e):
         # print(e.WindowStateChange)
-        if (e.WindowStateChange == Qt.WA_X11NetWmWindowTypeDock):
+        if e.WindowStateChange == Qt.WA_X11NetWmWindowTypeDock:
             if self.isMaximized():
                 self.comboBox_rows.setCurrentIndex(1)
             else:
@@ -660,4 +660,5 @@ if __name__ == '__main__':
     tongji_ui = DialogTongji(mainUI)
 
     loginUI.show()
+    
     sys.exit(app.exec_())
